@@ -17,7 +17,7 @@ node('linux') {
     stage ("TerminateInstance") {
     
         def output = sh returnStdout: true, script: 'aws ec2 describe-instances --region us-east-1 --filters "Name=instance-type,Values=t2.micro"| jq ".Reservations[].Instances[].InstanceId"'
-        sh "aws ec2 terminate-instances --instance-ids $output"
+        sh "aws ec2 terminate-instances --region us-east-1 --instance-ids $output"
         
     }
 }
