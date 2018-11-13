@@ -8,16 +8,15 @@ node('linux') {
         
     }
 
-    stage ("CreateInstance") {
+    //stage ("CreateInstance") {
     
-        sh "aws ec2 run-instances --image-id ami-013be31976ca2c322 --count 1 --instance-type t2.micro --key-name mykeypair --security-group-ids sg-35153d79 --subnet-id subnet-eef57389 --region us-east-1"
+        //sh "aws ec2 run-instances --image-id ami-013be31976ca2c322 --count 1 --instance-type t2.micro --key-name mykeypair --security-group-ids sg-35153d79 --subnet-id subnet-eef57389 --region us-east-1"
 
-    }
+    //}
     
     stage ("TerminateInstance") {
     
-        def output = sh returnStdout: true, script: 'aws ec2 describe-instances --filters "Name=instance-type,Vales=t2.micro" "Name=availability-zone,Values=us-east-1a" --query "Reservations[*].Instances[*].[InstanceId]" | jq .'
-        echo "$output"
+        sh 'aws ec2 describe-instances --region us-east-1 --filters "Name=instance-type,Values=t2.micro"'
         
     }
 }
